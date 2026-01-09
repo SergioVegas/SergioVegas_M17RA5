@@ -228,7 +228,7 @@ GameObject:
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
-  m_Icon: {fileID: 0}
+  m_Icon: {fileID: 2974397684917235467, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
@@ -283,7 +283,7 @@ CharacterController:
   m_StepOffset: 0.3
   m_SkinWidth: 0.08
   m_MinMoveDistance: 0.001
-  m_Center: {x: -2, y: 1.08, z: 2.79}
+  m_Center: {x: -0.16, y: 1.08, z: -0.2}
 --- !u!114 &795639699
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -308,6 +308,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 82b330f515baba24a87c72bc3a992d46, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MoveBehavior
+  rotateSpeed: 473.9
 --- !u!4 &795639701
 Transform:
   m_ObjectHideFlags: 0
@@ -598,7 +599,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: -8679921383154817045, guid: 75afd78c2f2a7714b8ee65cc43988cec, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -1.9217453
+      value: -0.173
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 75afd78c2f2a7714b8ee65cc43988cec, type: 3}
       propertyPath: m_LocalPosition.y
@@ -606,7 +607,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 75afd78c2f2a7714b8ee65cc43988cec, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 2.6976166
+      value: -0.18
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 75afd78c2f2a7714b8ee65cc43988cec, type: 3}
       propertyPath: m_LocalRotation.w
