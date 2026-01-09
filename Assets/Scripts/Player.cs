@@ -1,4 +1,5 @@
 using System;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -6,26 +7,33 @@ using UnityEngine.InputSystem;
 public  class Player : MonoBehaviour, InputSystem_Actions.IPlayerActions
 {
     private Rigidbody _rb;
+    private CharacterController _controller;
     protected MoveBehavior _mb;
-    protected float speed = 5;
+    private InputSystem_Actions _actions;
+    protected float speed = 2;
     private float xVelocity;
     private float zVelocity;
 
     private void Awake()
     {
+        _controller = GetComponent<CharacterController>();
         _rb = GetComponent<Rigidbody>();
         _mb = GetComponent<MoveBehavior>();
+        _actions = new InputSystem_Actions();
+        _actions.Player.SetCallbacks(this);
     }
 
-    void FixedUpdate()
+    void Update()
     {
         _mb.MoveCharacter(new Vector3(xVelocity, 0,zVelocity), speed);
+        _mb.RotateCharacter(new Vector3(xVelocity, 0, zVelocity));
     }
 
     public void OnMove(InputAction.CallbackContext context)
     {
-        xVelocity = context.ReadValue<Vector3>().x;
-        zVelocity = context.ReadValue<Vector3>().z;
+        Vector2 input = context.ReadValue<Vector2>(); 
+        xVelocity = input.x;
+        zVelocity = input.y;
     }
 
     public void OnLook(InputAction.CallbackContext context)
@@ -66,5 +74,13 @@ public  class Player : MonoBehaviour, InputSystem_Actions.IPlayerActions
     public void OnSprint(InputAction.CallbackContext context)
     {
         throw new NotImplementedException();
+    }
+    public void OnEnable()
+    {
+        _actions.Enable();
+    }
+    public void OnDisable()
+    {
+        _actions.Disable();
     }
 }
