@@ -4,6 +4,7 @@ using UnityEngine.UIElements;
 public class MoveBehavior : MonoBehaviour
 {
     private CharacterController _controller;
+    public Vector3 CurrentVelocity { get; private set; }
     private void Awake()
     { 
         _controller = GetComponent<CharacterController>();
@@ -12,6 +13,7 @@ public class MoveBehavior : MonoBehaviour
     {
         Vector3 move = new Vector3(direction.x, 0f, direction.z); 
         _controller.Move(move * speed * Time.deltaTime);
+        CurrentVelocity = move * speed;
     }
     public void RotateCharacter(Vector3 moveDir)
     {

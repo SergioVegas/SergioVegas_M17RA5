@@ -7,16 +7,16 @@ using UnityEngine.InputSystem;
 public  class Player : MonoBehaviour, InputSystem_Actions.IPlayerActions
 {
     private Rigidbody _rb;
-    private CharacterController _controller;
     protected MoveBehavior _mb;
     private InputSystem_Actions _actions;
     protected float speed = 2;
     private float xVelocity;
     private float zVelocity;
+    protected Animator _animator;
 
     private void Awake()
     {
-        _controller = GetComponent<CharacterController>();
+        _animator = GetComponentInChildren<Animator>();
         _rb = GetComponent<Rigidbody>();
         _mb = GetComponent<MoveBehavior>();
         _actions = new InputSystem_Actions();
@@ -24,7 +24,8 @@ public  class Player : MonoBehaviour, InputSystem_Actions.IPlayerActions
     }
 
     void Update()
-    {
+    {   
+        _animator.SetFloat("Speed", _mb.CurrentVelocity.magnitude);
         _mb.MoveCharacter(new Vector3(xVelocity, 0,zVelocity), speed);
         _mb.RotateCharacter(new Vector3(xVelocity, 0, zVelocity));
     }
@@ -38,17 +39,19 @@ public  class Player : MonoBehaviour, InputSystem_Actions.IPlayerActions
 
     public void OnLook(InputAction.CallbackContext context)
     {
-        throw new NotImplementedException();
+        
     }
 
     public void OnAttack(InputAction.CallbackContext context)
     {
-        throw new NotImplementedException();
+        throw new 
+            
+            ();
     }
 
     public void OnInteract(InputAction.CallbackContext context)
     {
-        throw new NotImplementedException();
+        _animator.SetTrigger("Dancing");
     }
 
     public void OnCrouch(InputAction.CallbackContext context)
