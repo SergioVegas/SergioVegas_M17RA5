@@ -22,11 +22,8 @@ public class MoveBehavior : MonoBehaviour
     {
         if (moveDir.sqrMagnitude > 0.01f) 
         {
-            //float angle = Mathf.Atan2(moveDir.x, moveDir.z) * Mathf.Rad2Deg;
             float angle = moveDir.x;
-            transform.Rotate(new Vector3(0, angle * Time.deltaTime * rotateSpeed, 0));
-            //Quaternion targetRotation = Quaternion.Euler(0,angle,0);
-            //transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, 10f * Time.deltaTime);
+            transform.Rotate(new Vector3(0, angle * Time.deltaTime * rotateSpeed, 0));  
         }
     }
 }

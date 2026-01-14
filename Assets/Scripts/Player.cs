@@ -4,10 +4,13 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 
 [RequireComponent(typeof(MoveBehavior))]
-public  class Player : MonoBehaviour, InputSystem_Actions.IPlayerActions
+[RequireComponent(typeof(JumpBehavior))]
+
+public class Player : MonoBehaviour, InputSystem_Actions.IPlayerActions
 {
     private Rigidbody _rb;
     protected MoveBehavior _mb;
+    protected JumpBehavior _jb;
     private InputSystem_Actions _actions;
     protected float speed = 2;
     private float xVelocity;
@@ -18,6 +21,7 @@ public  class Player : MonoBehaviour, InputSystem_Actions.IPlayerActions
     {
         _animator = GetComponentInChildren<Animator>();
         _rb = GetComponent<Rigidbody>();
+        _jb = GetComponent<JumpBehavior>();
         _mb = GetComponent<MoveBehavior>();
         _actions = new InputSystem_Actions();
         _actions.Player.SetCallbacks(this);
@@ -61,7 +65,7 @@ public  class Player : MonoBehaviour, InputSystem_Actions.IPlayerActions
 
     public void OnJump(InputAction.CallbackContext context)
     {
-        throw new NotImplementedException();
+        _jb.Jump();
     }
 
     public void OnPrevious(InputAction.CallbackContext context)
