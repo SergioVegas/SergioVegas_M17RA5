@@ -11,8 +11,8 @@ public class Player : MonoBehaviour, InputSystem_Actions.IPlayerActions
     protected MoveBehavior _mb;
     protected JumpBehavior _jb;
     private InputSystem_Actions _actions;
-    protected float speedWalk = 1.5f;
-    protected float speedRunning = 3f;
+    protected float speedWalk = 3;
+    protected float speedRunning = 6f;
     protected float actualSpeed;
     private float xVelocity;
     private float zVelocity;
@@ -32,6 +32,12 @@ public class Player : MonoBehaviour, InputSystem_Actions.IPlayerActions
     {   
         _animator.SetFloat("Speed", Mathf.Abs(actualSpeed)* zVelocity);
         _mb.ExecuteMovement(new Vector3(xVelocity, 0,zVelocity), actualSpeed);
+        if (_jb.IsGrounded)
+        {
+            _animator.SetBool("Grounded", true);
+        }
+        else
+            _animator.SetBool("Grounded", false);
     }
 
     public void OnMove(InputAction.CallbackContext context)
