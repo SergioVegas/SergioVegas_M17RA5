@@ -30,14 +30,10 @@ public class Player : MonoBehaviour, InputSystem_Actions.IPlayerActions
 
     void Update()
     {   
-        _animator.SetFloat("Speed", Mathf.Abs(actualSpeed)* zVelocity);
+        _animator.SetFloat("Speed", actualSpeed* Mathf.Abs(zVelocity));
         _mb.ExecuteMovement(new Vector3(xVelocity, 0,zVelocity), actualSpeed);
-        if (_jb.IsGrounded)
-        {
-            _animator.SetBool("Grounded", true);
-        }
-        else
-            _animator.SetBool("Grounded", false);
+        _animator.SetBool("Grounded", _jb.IsGrounded);
+        
     }
 
     public void OnMove(InputAction.CallbackContext context)
@@ -71,7 +67,11 @@ public class Player : MonoBehaviour, InputSystem_Actions.IPlayerActions
 
     public void OnJump(InputAction.CallbackContext context)
     {
-        _jb.Jump();
+        if (_jb.IsGrounded)
+        {
+            _animator.SetTrigger("Jump");
+            _jb.Jump();
+        }
     }
 
     public void OnPrevious(InputAction.CallbackContext context)
@@ -86,7 +86,14 @@ public class Player : MonoBehaviour, InputSystem_Actions.IPlayerActions
 
     public void OnSprint(InputAction.CallbackContext context)
     {
-        actualSpeed = speedRunning;
+        if(context.ReadValueAsButton())
+        {
+            actualSpeed = speedRunning;
+        }
+        else
+        {
+            actualSpeed = speedWalk;
+        }
     }
     public void OnEnable()
     {
