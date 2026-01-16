@@ -8,7 +8,6 @@ using UnityEngine.InputSystem;
 
 public class Player : MonoBehaviour, InputSystem_Actions.IPlayerActions
 {
-    private Rigidbody _rb;
     protected MoveBehavior _mb;
     protected JumpBehavior _jb;
     private InputSystem_Actions _actions;
@@ -20,7 +19,6 @@ public class Player : MonoBehaviour, InputSystem_Actions.IPlayerActions
     private void Awake()
     {
         _animator = GetComponentInChildren<Animator>();
-        _rb = GetComponent<Rigidbody>();
         _jb = GetComponent<JumpBehavior>();
         _mb = GetComponent<MoveBehavior>();
         _actions = new InputSystem_Actions();
@@ -29,9 +27,8 @@ public class Player : MonoBehaviour, InputSystem_Actions.IPlayerActions
 
     void Update()
     {   
-        _animator.SetFloat("Speed", _mb.CurrentVelocity.magnitude);
-        _mb.MoveCharacter(new Vector3(xVelocity, 0,zVelocity), speed);
-        _mb.RotateCharacter(new Vector3(xVelocity, 0, zVelocity));
+        _animator.SetFloat("Speed", Mathf.Abs(zVelocity));
+        _mb.ExecuteMovement(new Vector3(xVelocity, 0,zVelocity), speed);
     }
 
     public void OnMove(InputAction.CallbackContext context)

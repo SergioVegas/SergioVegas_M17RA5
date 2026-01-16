@@ -224,7 +224,6 @@ GameObject:
   - component: {fileID: 795639700}
   - component: {fileID: 795639699}
   - component: {fileID: 795639698}
-  - component: {fileID: 795639697}
   - component: {fileID: 795639702}
   - component: {fileID: 795639703}
   m_Layer: 0
@@ -234,33 +233,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!54 &795639697
-Rigidbody:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 795639696}
-  serializedVersion: 5
-  m_Mass: 1
-  m_LinearDamping: 0
-  m_AngularDamping: 0.05
-  m_CenterOfMass: {x: 0, y: 0, z: 0}
-  m_InertiaTensor: {x: 1, y: 1, z: 1}
-  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ImplicitCom: 1
-  m_ImplicitTensor: 1
-  m_UseGravity: 1
-  m_IsKinematic: 0
-  m_Interpolate: 0
-  m_Constraints: 80
-  m_CollisionDetection: 0
 --- !u!143 &795639698
 CharacterController:
   m_ObjectHideFlags: 0
@@ -339,6 +311,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9769dc053f1bbb045ac5d549e46f0b75, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::JumpBehavior
+  jumpHeight: 1
 --- !u!136 &795639703
 CapsuleCollider:
   m_ObjectHideFlags: 0

@@ -2,21 +2,34 @@ using UnityEngine;
 
 public class JumpBehavior : MonoBehaviour
 {
-    private Rigidbody _rb;
-    private Vector3 jump = new Vector3(0, 1, 0);
-    private float jumpForce = 3f;
+    public float jumpHeight = 1.0f;
+    private float _gravity = -9.81f;
     private CharacterController _controller;
+    private Vector3 _playerVelocity;
+    public bool IsGrounded => _controller.isGrounded;
 
 
     private void Awake()
     {
-        _rb = GetComponent<Rigidbody>();
         _controller = GetComponent<CharacterController>();
+    }
+
+    private void Update()
+    {
+        if (IsGrounded && _playerVelocity.y < 0)
+        {
+            _playerVelocity.y = -2f;
+        }
+
+        _playerVelocity.y += _gravity * Time.deltaTime;
+        _controller.Move(_playerVelocity * Time.deltaTime);
     }
     public void Jump()
     {
-        _controller.Move(jump * jumpForce * Time.deltaTime);
-        //_rb.AddForce(jump * jumpForce, ForceMode.Impulse);
+        if (IsGrounded)
+        {
+            _playerVelocity.y = Mathf.Sqrt(jumpHeight * -3.0f * _gravity);
+        }
     }
  
 }

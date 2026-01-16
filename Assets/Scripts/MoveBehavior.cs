@@ -1,29 +1,31 @@
 using UnityEngine;
-using UnityEngine.UIElements;
 
 public class MoveBehavior : MonoBehaviour
 {
     private CharacterController _controller;
-    public Vector3 CurrentVelocity { get; private set; }
-    public float rotateSpeed = 5f;
+    public float rotateSpeed = 10f;
     private void Awake()
     { 
         _controller = GetComponent<CharacterController>();
     }
-    public void MoveCharacter(Vector3 direction, float speed)
+
+    public void ExecuteMovement(Vector3 direction, float speed)
     {
-        Vector3 move = new Vector3(direction.x, 0f, direction.z); 
-        if(move.z >0)
-            _controller.Move( transform.forward * move.z * speed * Time.deltaTime );
-        //_controller.Move(move * speed * Time.deltaTime);
-        CurrentVelocity = move * speed;
-    }
-    public void RotateCharacter(Vector3 moveDir)
-    {
-        if (moveDir.sqrMagnitude > 0.01f) 
+        // Handle rotation
+        if (direction.x != 0)
         {
-            float angle = moveDir.x;
-            transform.Rotate(new Vector3(0, angle * Time.deltaTime * rotateSpeed, 0));  
+            transform.Rotate(new Vector3(0, direction.x * rotateSpeed * Time.deltaTime, 0));
+        }
+
+        // Handle movement
+        if (direction.z != 0)
+        {
+            if (direction.z < 0)
+            { 
+               // transform.rotation = Quaternion.Euler(0, transform.eulerAngles.y + 180f, 0);
+            }
+            Vector3 move = transform.forward * direction.z;
+            _controller.Move(move * speed * Time.deltaTime);
         }
     }
 }
