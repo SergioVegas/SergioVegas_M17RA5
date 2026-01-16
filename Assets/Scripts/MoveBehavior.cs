@@ -3,7 +3,7 @@ using UnityEngine;
 public class MoveBehavior : MonoBehaviour
 {
     private CharacterController _controller;
-    public float rotateSpeed = 10f;
+    public float rotateSpeed = 20f;
     private void Awake()
     { 
         _controller = GetComponent<CharacterController>();
