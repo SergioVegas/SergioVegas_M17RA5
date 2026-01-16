@@ -11,7 +11,9 @@ public class Player : MonoBehaviour, InputSystem_Actions.IPlayerActions
     protected MoveBehavior _mb;
     protected JumpBehavior _jb;
     private InputSystem_Actions _actions;
-    protected float speed = 2;
+    protected float speedWalk = 1.5f;
+    protected float speedRunning = 3f;
+    protected float actualSpeed;
     private float xVelocity;
     private float zVelocity;
     protected Animator _animator;
@@ -23,12 +25,13 @@ public class Player : MonoBehaviour, InputSystem_Actions.IPlayerActions
         _mb = GetComponent<MoveBehavior>();
         _actions = new InputSystem_Actions();
         _actions.Player.SetCallbacks(this);
+        actualSpeed = speedWalk;
     }
 
     void Update()
     {   
-        _animator.SetFloat("Speed", Mathf.Abs(zVelocity));
-        _mb.ExecuteMovement(new Vector3(xVelocity, 0,zVelocity), speed);
+        _animator.SetFloat("Speed", Mathf.Abs(actualSpeed)* zVelocity);
+        _mb.ExecuteMovement(new Vector3(xVelocity, 0,zVelocity), actualSpeed);
     }
 
     public void OnMove(InputAction.CallbackContext context)
@@ -77,7 +80,7 @@ public class Player : MonoBehaviour, InputSystem_Actions.IPlayerActions
 
     public void OnSprint(InputAction.CallbackContext context)
     {
-        throw new NotImplementedException();
+        actualSpeed = speedRunning;
     }
     public void OnEnable()
     {
