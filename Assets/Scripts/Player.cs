@@ -18,6 +18,9 @@ public class Player : MonoBehaviour, InputSystem_Actions.IPlayerActions
     private float zVelocity;
     protected Animator _animator;
 
+    private CameraController _cameraController;
+    private bool _isAiming = false;
+
     private void Awake()
     {
         _animator = GetComponentInChildren<Animator>();
@@ -26,33 +29,60 @@ public class Player : MonoBehaviour, InputSystem_Actions.IPlayerActions
         _actions = new InputSystem_Actions();
         _actions.Player.SetCallbacks(this);
         actualSpeed = speedWalk;
+
+        if (Camera.main != null)
+        {
+            _cameraController = Camera.main.GetComponent<CameraController>();
+        }
     }
 
     void Update()
-    {   
-        _animator.SetFloat("Speed", actualSpeed* Mathf.Abs(zVelocity));
-        _mb.ExecuteMovement(new Vector3(xVelocity, 0,zVelocity), actualSpeed);
-        _animator.SetBool("Grounded", _jb.IsGrounded);
+    {
         
+        bool isAttacking = _animator.GetCurrentAnimatorStateInfo(0).IsName("Attack_Player");
+
+        if (isAttacking)
+        {
+            // Stop movement while attacking
+            _mb.ExecuteMovement(Vector3.zero, 0f);
+        }
+        else
+        {
+            _animator.SetFloat("Speed", actualSpeed * Mathf.Abs(zVelocity));
+            _mb.ExecuteMovement(new Vector3(xVelocity, 0, zVelocity), actualSpeed);
+        }
+
+        _animator.SetBool("Grounded", _jb.IsGrounded);
     }
 
     public void OnMove(InputAction.CallbackContext context)
     {
-        Vector2 input = context.ReadValue<Vector2>(); 
+        Vector2 input = context.ReadValue<Vector2>();
         xVelocity = input.x;
         zVelocity = input.y;
     }
 
     public void OnLook(InputAction.CallbackContext context)
     {
-        
+       
+    }
+    public void OnAim(InputAction.CallbackContext context)
+    {
+        Debug.Log("aim");
+
+        _isAiming = !_isAiming;
+        _cameraController.SwitchView(_isAiming);
+        _animator.SetBool("Aiming", _isAiming);
     }
 
     public void OnAttack(InputAction.CallbackContext context)
-    {
-        throw new 
-            
-            ();
+    {  
+            bool isAttacking = _animator.GetCurrentAnimatorStateInfo(0).IsName("Attack_Player") ||
+                               _animator.GetNextAnimatorStateInfo(0).IsName("Attack_Player");
+            if (!isAttacking)
+            {
+                _animator.SetTrigger("Attack");
+            }
     }
 
     public void OnInteract(InputAction.CallbackContext context)
