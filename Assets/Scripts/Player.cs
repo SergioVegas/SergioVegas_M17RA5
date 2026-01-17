@@ -1,5 +1,4 @@
 using System;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -8,6 +7,8 @@ using UnityEngine.InputSystem;
 
 public class Player : MonoBehaviour, InputSystem_Actions.IPlayerActions
 {
+    public event Action<bool> OnAiming;
+
     protected MoveBehavior _mb;
     protected JumpBehavior _jb;
     private InputSystem_Actions _actions;
@@ -17,8 +18,6 @@ public class Player : MonoBehaviour, InputSystem_Actions.IPlayerActions
     private float xVelocity;
     private float zVelocity;
     protected Animator _animator;
-
-    private CameraController _cameraController;
     private bool _isAiming = false;
 
     private void Awake()
@@ -29,16 +28,10 @@ public class Player : MonoBehaviour, InputSystem_Actions.IPlayerActions
         _actions = new InputSystem_Actions();
         _actions.Player.SetCallbacks(this);
         actualSpeed = speedWalk;
-
-        if (Camera.main != null)
-        {
-            _cameraController = Camera.main.GetComponent<CameraController>();
-        }
     }
 
     void Update()
     {
-        
         bool isAttacking = _animator.GetCurrentAnimatorStateInfo(0).IsName("Attack_Player");
 
         if (isAttacking)
@@ -66,13 +59,12 @@ public class Player : MonoBehaviour, InputSystem_Actions.IPlayerActions
     {
        
     }
+
     public void OnAim(InputAction.CallbackContext context)
     {
-        Debug.Log("aim");
-
         _isAiming = !_isAiming;
-        _cameraController.SwitchView(_isAiming);
         _animator.SetBool("Aiming", _isAiming);
+        OnAiming?.Invoke(_isAiming);
     }
 
     public void OnAttack(InputAction.CallbackContext context)
@@ -125,10 +117,12 @@ public class Player : MonoBehaviour, InputSystem_Actions.IPlayerActions
             actualSpeed = speedWalk;
         }
     }
+
     public void OnEnable()
     {
         _actions.Enable();
     }
+
     public void OnDisable()
     {
         _actions.Disable();
