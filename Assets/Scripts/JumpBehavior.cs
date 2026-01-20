@@ -7,8 +7,6 @@ public class JumpBehavior : MonoBehaviour
     private CharacterController _controller;
     private Vector3 _playerVelocity;
     public bool IsGrounded => _controller.isGrounded;
-    public int maxJumps = 2;
-    private int jumpCounter = 0;
 
 
     private void Awake()
@@ -21,22 +19,18 @@ public class JumpBehavior : MonoBehaviour
         if (IsGrounded && _playerVelocity.y < 0)
         {
             _playerVelocity.y = -2f;
-            jumpCounter = 0;
         }
 
         _playerVelocity.y += _gravity * Time.deltaTime;
         _controller.Move(_playerVelocity * Time.deltaTime);
     }
-    public bool Jump()
+    public void JumpDelayed()
     {
-        if (jumpCounter < maxJumps)
-        {
-            jumpCounter++;
-            _playerVelocity.y = Mathf.Sqrt(jumpHeight * -3.0f * _gravity);
-            return true;
-        }
-
-        return false;
+        Invoke("Jump", 0.3f);
+    }
+    public void Jump()
+    {
+        _playerVelocity.y = Mathf.Sqrt(jumpHeight * -3.0f * _gravity);
     }
  
 }

@@ -92,7 +92,7 @@ public class Player : MonoBehaviour, InputSystem_Actions.IPlayerActions
         if (_jb.IsGrounded)
         {
             _animator.SetTrigger("Jump");
-            _jb.Jump();
+            _jb.JumpDelayed();
         }
     }
 
