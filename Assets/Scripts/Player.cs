@@ -19,6 +19,8 @@ public class Player : MonoBehaviour, InputSystem_Actions.IPlayerActions
     private float zVelocity;
     protected Animator _animator;
     private bool _isAiming = false;
+    private bool _wasGrounded;
+    private bool _isJumping = false;
 
     private void Awake()
     {
@@ -28,6 +30,7 @@ public class Player : MonoBehaviour, InputSystem_Actions.IPlayerActions
         _actions = new InputSystem_Actions();
         _actions.Player.SetCallbacks(this);
         actualSpeed = speedWalk;
+        _wasGrounded = true; // Asumimos que el personaje empieza en el suelo
     }
 
     void Update()
@@ -45,7 +48,21 @@ public class Player : MonoBehaviour, InputSystem_Actions.IPlayerActions
             _mb.ExecuteMovement(new Vector3(xVelocity, 0, zVelocity), actualSpeed);
         }
 
+        // Este booleano sigue siendo útil para pasar de Saltar a Caer (Jumping -> Falling)
         _animator.SetBool("Grounded", _jb.IsGrounded);
+
+        // --- LÓGICA DE ATERRIZAJE ---
+        // Comprobamos si acabamos de aterrizar en este fotograma
+        if (!_wasGrounded && _jb.IsGrounded)
+        {
+            // Usamos un Trigger para la animación de aterrizaje, que solo se dispara una vez
+            _animator.SetTrigger("Land");
+            // Al aterrizar, reseteamos la variable para permitir un nuevo salto
+            _isJumping = false;
+        }
+
+        // Almacenamos el estado de 'Grounded' para usarlo en el siguiente fotograma
+        _wasGrounded = _jb.IsGrounded;
     }
 
     public void OnMove(InputAction.CallbackContext context)
@@ -89,8 +106,10 @@ public class Player : MonoBehaviour, InputSystem_Actions.IPlayerActions
 
     public void OnJump(InputAction.CallbackContext context)
     {
-        if (_jb.IsGrounded)
+        // Solo saltar si estamos en el suelo Y NO estamos ya en proceso de saltar
+        if (_jb.IsGrounded && !_isJumping)
         {
+            _isJumping = true; // Marcamos que hemos empezado un salto
             _animator.SetTrigger("Jump");
             _jb.JumpDelayed();
         }
