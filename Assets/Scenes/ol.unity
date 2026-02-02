@@ -805,8 +805,8 @@ Transform:
   m_GameObject: {fileID: 273058214}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: 0.2120963, z: -0, w: 0.9772488}
-  m_LocalPosition: {x: 101.954, y: 5.52, z: 112}
-  m_LocalScale: {x: 5.15038, y: 5.15038, z: 5.15038}
+  m_LocalPosition: {x: 101.8869, y: 5.52, z: 113.9212}
+  m_LocalScale: {x: 5.3919435, y: 5.402749, z: 5.706924}
   m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 0}
@@ -1427,6 +1427,7 @@ GameObject:
   - component: {fileID: 898692021}
   - component: {fileID: 898692020}
   - component: {fileID: 898692019}
+  - component: {fileID: 898692022}
   m_Layer: 0
   m_Name: Snow
   m_TagString: Untagged
@@ -1460,7 +1461,7 @@ ParticleSystemRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: e823cd5b5d27c0f4b8256e7c12ee3e6d, type: 2}
+  - {fileID: 2100000, guid: c2534a13fc926a64ebb0c7f34bf68205, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -1650,8 +1651,8 @@ ParticleSystem:
     startSpeed:
       serializedVersion: 2
       minMaxState: 3
-      scalar: 0.625
-      minScalar: 0.25
+      scalar: 0.8
+      minScalar: 0.3
       maxCurve:
         serializedVersion: 2
         m_Curve:
@@ -1768,8 +1769,8 @@ ParticleSystem:
     startSize:
       serializedVersion: 2
       minMaxState: 3
-      scalar: 1
-      minScalar: 0.2
+      scalar: 1.5
+      minScalar: 0.5
       maxCurve:
         serializedVersion: 2
         m_Curve:
@@ -2088,7 +2089,7 @@ ParticleSystem:
     maxNumParticles: 480
     customEmitterVelocity: {x: 0, y: 0, z: 0}
     size3D: 0
-    rotation3D: 1
+    rotation3D: 0
     gravityModifier:
       serializedVersion: 2
       minMaxState: 0
@@ -2351,7 +2352,7 @@ ParticleSystem:
     rateOverTime:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 12
+      scalar: 14
       minScalar: 10
       maxCurve:
         serializedVersion: 2
@@ -5281,7 +5282,7 @@ ParticleSystem:
     collidesWithDynamic: 1
     interiorCollisions: 0
   TriggerModule:
-    enabled: 0
+    enabled: 1
     serializedVersion: 2
     inside: 1
     outside: 0
@@ -5289,7 +5290,8 @@ ParticleSystem:
     exit: 0
     colliderQueryMode: 0
     radiusScale: 1
-    primitives: []
+    primitives:
+    - {fileID: 427180919}
   SubModule:
     serializedVersion: 2
     enabled: 0
@@ -6247,11 +6249,24 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0.7071068, y: -0, z: -0, w: 0.7071068}
   m_LocalPosition: {x: 100.78, y: 10.342, z: 104.365005}
-  m_LocalScale: {x: 6, y: 6, z: 3}
+  m_LocalScale: {x: 8, y: 8, z: 3}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 90, y: 0, z: 0}
+--- !u!114 &898692022
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 898692018}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f46dcbf9bf9f311428de2f148a4aed9b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::FollowItem
+  itemToFollow: {fileID: 795639696}
 --- !u!1 &1012404948
 GameObject:
   m_ObjectHideFlags: 0
