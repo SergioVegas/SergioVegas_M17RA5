@@ -12,7 +12,7 @@ public class Player : MonoBehaviour, InputSystem_Actions.IPlayerActions
     protected MoveBehavior _mb;
     protected JumpBehavior _jb;
     private InputSystem_Actions _actions;
-    protected float speedWalk = 3;
+    protected float speedWalk = 3f;
     protected float speedRunning = 6f;
     protected float actualSpeed;
     private float xVelocity;
@@ -22,6 +22,7 @@ public class Player : MonoBehaviour, InputSystem_Actions.IPlayerActions
     private bool _wasGrounded;
     private bool _isJumping = false;
 
+    public static event Action UseDoor = delegate { };
     private void Awake()
     {
         _animator = GetComponentInChildren<Animator>();
@@ -30,7 +31,7 @@ public class Player : MonoBehaviour, InputSystem_Actions.IPlayerActions
         _actions = new InputSystem_Actions();
         _actions.Player.SetCallbacks(this);
         actualSpeed = speedWalk;
-        _wasGrounded = true; // Asumimos que el personaje empieza en el suelo
+        _wasGrounded = true; 
     }
 
     void Update()
@@ -48,20 +49,14 @@ public class Player : MonoBehaviour, InputSystem_Actions.IPlayerActions
             _mb.ExecuteMovement(new Vector3(xVelocity, 0, zVelocity), actualSpeed);
         }
 
-        // Este booleano sigue siendo útil para pasar de Saltar a Caer (Jumping -> Falling)
         _animator.SetBool("Grounded", _jb.IsGrounded);
 
-        // --- LÓGICA DE ATERRIZAJE ---
-        // Comprobamos si acabamos de aterrizar en este fotograma
         if (!_wasGrounded && _jb.IsGrounded)
         {
-            // Usamos un Trigger para la animación de aterrizaje, que solo se dispara una vez
+
             _animator.SetTrigger("Land");
-            // Al aterrizar, reseteamos la variable para permitir un nuevo salto
             _isJumping = false;
         }
-
-        // Almacenamos el estado de 'Grounded' para usarlo en el siguiente fotograma
         _wasGrounded = _jb.IsGrounded;
     }
 
@@ -96,7 +91,10 @@ public class Player : MonoBehaviour, InputSystem_Actions.IPlayerActions
 
     public void OnInteract(InputAction.CallbackContext context)
     {
-        _animator.SetTrigger("Dancing");
+        if (context.started)
+        {
+            UseDoor.Invoke();
+        }
     }
 
     public void OnCrouch(InputAction.CallbackContext context)
@@ -106,10 +104,9 @@ public class Player : MonoBehaviour, InputSystem_Actions.IPlayerActions
 
     public void OnJump(InputAction.CallbackContext context)
     {
-        // Solo saltar si estamos en el suelo Y NO estamos ya en proceso de saltar
         if (_jb.IsGrounded && !_isJumping)
         {
-            _isJumping = true; // Marcamos que hemos empezado un salto
+            _isJumping = true; 
             _animator.SetTrigger("Jump");
             _jb.JumpDelayed();
         }
@@ -145,5 +142,10 @@ public class Player : MonoBehaviour, InputSystem_Actions.IPlayerActions
     public void OnDisable()
     {
         _actions.Disable();
+    }
+
+    public void OnDance(InputAction.CallbackContext context)
+    {
+        _animator.SetTrigger("Dancing");
     }
 }
