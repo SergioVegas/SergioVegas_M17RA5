@@ -21,9 +21,9 @@ public class Player : MonoBehaviour, InputSystem_Actions.IPlayerActions
     private bool _isAiming = false;
     private bool _wasGrounded;
     private bool _isJumping = false;
-
     public static event Action UseDoor = delegate { };
     protected EquipWeapon _equipWeapon;
+
     private void Awake()
     {
         _animator = GetComponentInChildren<Animator>();

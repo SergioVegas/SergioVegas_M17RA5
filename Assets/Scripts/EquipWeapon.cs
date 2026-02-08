@@ -8,18 +8,6 @@ public class EquipWeapon : MonoBehaviour
     
     private GameObject currentWeapon;
     private bool isEquipped = false;
-
-    public bool IsEquipped => isEquipped;
-
-    private void Start()
-    {
-        if (weaponPrefab != null && currentWeapon == null)
-        {
-            currentWeapon = Instantiate(weaponPrefab);
-            Unequip();
-        }
-    }
-
     public void ToggleEquip()
     {
         if (isEquipped) Unequip();
@@ -36,7 +24,6 @@ public class EquipWeapon : MonoBehaviour
             isEquipped = true;
         }
     }
-
     public void Unequip()
     {
         if (back != null && currentWeapon != null)
@@ -48,4 +35,14 @@ public class EquipWeapon : MonoBehaviour
             isEquipped = false;
         }
     }
+    public void CreateWeapon()
+    {
+        if (weaponPrefab != null && currentWeapon == null)
+        {
+            currentWeapon = Instantiate(weaponPrefab);
+            Unequip();
+        }
+    }
+    private void OnEnable() { ObtainWeapon.InstateWeapon += CreateWeapon; }
+    private void OnDisable() { ObtainWeapon.InstateWeapon -= CreateWeapon; }
 }
