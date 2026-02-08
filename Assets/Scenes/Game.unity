@@ -561,6 +561,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ac0b09e7857660247b1477e93731de29, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Cinemachine::Cinemachine.CinemachinePipeline
+--- !u!4 &70806523 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 366175167995203695, guid: 75afd78c2f2a7714b8ee65cc43988cec, type: 3}
+  m_PrefabInstance: {fileID: 1872699432}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &89771370
 GameObject:
   m_ObjectHideFlags: 0
@@ -1376,6 +1381,11 @@ Transform:
   m_Children: []
   m_Father: {fileID: 795639701}
   m_LocalEulerAnglesHint: {x: 90, y: 0, z: 0}
+--- !u!4 &146982836 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 1852576806548013000, guid: 75afd78c2f2a7714b8ee65cc43988cec, type: 3}
+  m_PrefabInstance: {fileID: 1872699432}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &155909708
 GameObject:
   m_ObjectHideFlags: 0
@@ -4236,6 +4246,7 @@ GameObject:
   - component: {fileID: 795639698}
   - component: {fileID: 795639702}
   - component: {fileID: 795639703}
+  - component: {fileID: 795639704}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -4347,6 +4358,21 @@ CapsuleCollider:
   m_Height: 2.0339086
   m_Direction: 1
   m_Center: {x: -0.01, y: 1.01, z: -0.14}
+--- !u!114 &795639704
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 795639696}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 53e7f9353d0dc99449387ac003e75e44, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EquipWeapon
+  hand: {fileID: 146982836}
+  back: {fileID: 70806523}
+  weaponPrefab: {fileID: 1260561928203647582, guid: c328fc1e21b992746a74f92e1d2e45d1, type: 3}
 --- !u!1 &819012692
 GameObject:
   m_ObjectHideFlags: 0
@@ -5748,7 +5774,7 @@ ParticleSystem:
         m_RotationOrder: 4
     randomizeRotationDirection: 0
     gravitySource: 0
-    maxNumParticles: 480
+    maxNumParticles: 1000
     customEmitterVelocity: {x: 0, y: 0, z: 0}
     size3D: 0
     rotation3D: 0
@@ -6014,7 +6040,7 @@ ParticleSystem:
     rateOverTime:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 14
+      scalar: 16
       minScalar: 10
       maxCurve:
         serializedVersion: 2
@@ -15708,7 +15734,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ParticleTrigger
   particles: {fileID: 898692020}
-  delay: 0.5
 --- !u!1 &2023772526
 GameObject:
   m_ObjectHideFlags: 0

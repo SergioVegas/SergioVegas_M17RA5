@@ -10,12 +10,10 @@ public class ParticleTrigger : MonoBehaviour
         {
             if (particles.isPlaying)
             {
-                Debug.Log("Stop");
                 particles.Stop();
             }
             else
             {
-                Debug.Log("Play");
                 particles.Play();
             }
         }

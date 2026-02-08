@@ -23,11 +23,13 @@ public class Player : MonoBehaviour, InputSystem_Actions.IPlayerActions
     private bool _isJumping = false;
 
     public static event Action UseDoor = delegate { };
+    protected EquipWeapon _equipWeapon;
     private void Awake()
     {
         _animator = GetComponentInChildren<Animator>();
         _jb = GetComponent<JumpBehavior>();
         _mb = GetComponent<MoveBehavior>();
+        _equipWeapon = GetComponent<EquipWeapon>();
         _actions = new InputSystem_Actions();
         _actions.Player.SetCallbacks(this);
         actualSpeed = speedWalk;
@@ -67,11 +69,6 @@ public class Player : MonoBehaviour, InputSystem_Actions.IPlayerActions
         zVelocity = input.y;
     }
 
-    public void OnLook(InputAction.CallbackContext context)
-    {
-       
-    }
-
     public void OnAim(InputAction.CallbackContext context)
     {
         _isAiming = !_isAiming;
@@ -96,12 +93,6 @@ public class Player : MonoBehaviour, InputSystem_Actions.IPlayerActions
             UseDoor.Invoke();
         }
     }
-
-    public void OnCrouch(InputAction.CallbackContext context)
-    {
-        throw new NotImplementedException();
-    }
-
     public void OnJump(InputAction.CallbackContext context)
     {
         if (_jb.IsGrounded && !_isJumping)
@@ -110,16 +101,6 @@ public class Player : MonoBehaviour, InputSystem_Actions.IPlayerActions
             _animator.SetTrigger("Jump");
             _jb.JumpDelayed();
         }
-    }
-
-    public void OnPrevious(InputAction.CallbackContext context)
-    {
-        throw new NotImplementedException();
-    }
-
-    public void OnNext(InputAction.CallbackContext context)
-    {
-        throw new NotImplementedException();
     }
 
     public void OnSprint(InputAction.CallbackContext context)
@@ -133,6 +114,18 @@ public class Player : MonoBehaviour, InputSystem_Actions.IPlayerActions
             actualSpeed = speedWalk;
         }
     }
+    public void OnDance(InputAction.CallbackContext context)
+    {
+        _animator.SetTrigger("Dancing");
+    }
+
+    public void OnEquip(InputAction.CallbackContext context)
+    {
+        if (context.started && _equipWeapon != null)
+        {
+            _equipWeapon.ToggleEquip();
+        }
+    }
 
     public void OnEnable()
     {
@@ -144,8 +137,5 @@ public class Player : MonoBehaviour, InputSystem_Actions.IPlayerActions
         _actions.Disable();
     }
 
-    public void OnDance(InputAction.CallbackContext context)
-    {
-        _animator.SetTrigger("Dancing");
-    }
+  
 }
