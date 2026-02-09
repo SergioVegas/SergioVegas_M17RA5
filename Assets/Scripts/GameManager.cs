@@ -94,6 +94,13 @@ public class GameManager : MonoBehaviour
                     if (data.hasWeapon)
                     {
                         equipScript.CreateWeapon(); 
+
+                        // If player has weapon, destroy any weapon pickup objects in the scene
+                        ObtainWeapon[] pickups = Object.FindObjectsByType<ObtainWeapon>(FindObjectsSortMode.None);
+                        foreach (var pickup in pickups)
+                        {
+                            Destroy(pickup.gameObject);
+                        }
                         
                         if (data.isWeaponEquipped)
                         {
