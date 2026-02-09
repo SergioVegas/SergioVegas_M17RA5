@@ -1,9 +1,13 @@
 using UnityEngine;
 
-public class Door : MonoBehaviour
+public class Door : MonoBehaviour, IInteractable
 {
     private bool isOpen = false;
 
+    public void Interact()
+    {
+        RotateDoor();
+    }
     public void OpenDoor()
     {
         transform.localRotation = Quaternion.Euler(0, 90, 0);
@@ -26,7 +30,4 @@ public class Door : MonoBehaviour
             CloseDoor();
       }
     }
-
-    private void OnEnable() { Player.UseDoor += RotateDoor; }
-    private void OnDisable() { Player.UseDoor -= RotateDoor; }
 }

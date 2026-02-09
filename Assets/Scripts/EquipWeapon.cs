@@ -8,10 +8,19 @@ public class EquipWeapon : MonoBehaviour
     
     private GameObject currentWeapon;
     private bool isEquipped = false;
+    public bool IsEquipped => isEquipped;
+    public bool HasWeapon => currentWeapon != null;
+
     public void ToggleEquip()
     {
         if (isEquipped) Unequip();
         else Equip();
+    }
+
+    public void SetEquipped(bool state)
+    {
+        if (state) Equip();
+        else Unequip();
     }
 
     public void Equip()

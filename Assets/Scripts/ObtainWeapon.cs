@@ -3,15 +3,17 @@ using Unity.VisualScripting;
 using UnityEngine;
 using static UnityEngine.ParticleSystem;
 
-public class ObtainWeapon : MonoBehaviour
+public class ObtainWeapon : MonoBehaviour, IInteractable
 {
     public static event Action InstateWeapon = delegate { };
-    private void OnTriggerEnter(Collider other)
+    private bool _instateWeapon = false;
+    public void Interact()
     {
-        if (other.CompareTag("Player"))
+        if(!_instateWeapon)
         {
             InstateWeapon.Invoke();
             Destroy(gameObject);
+            _instateWeapon = true;
         }
     }
 }

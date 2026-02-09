@@ -4,6 +4,7 @@ using UnityEngine.InputSystem;
 
 [RequireComponent(typeof(MoveBehavior))]
 [RequireComponent(typeof(JumpBehavior))]
+[RequireComponent(typeof(InteractBehavior))]
 
 public class Player : MonoBehaviour, InputSystem_Actions.IPlayerActions
 {
@@ -11,6 +12,7 @@ public class Player : MonoBehaviour, InputSystem_Actions.IPlayerActions
 
     protected MoveBehavior _mb;
     protected JumpBehavior _jb;
+    protected InteractBehavior _ib;
     private InputSystem_Actions _actions;
     protected float speedWalk = 3f;
     protected float speedRunning = 6f;
@@ -21,7 +23,6 @@ public class Player : MonoBehaviour, InputSystem_Actions.IPlayerActions
     private bool _isAiming = false;
     private bool _wasGrounded;
     private bool _isJumping = false;
-    public static event Action UseDoor = delegate { };
     protected EquipWeapon _equipWeapon;
 
     private void Awake()
@@ -29,6 +30,7 @@ public class Player : MonoBehaviour, InputSystem_Actions.IPlayerActions
         _animator = GetComponentInChildren<Animator>();
         _jb = GetComponent<JumpBehavior>();
         _mb = GetComponent<MoveBehavior>();
+        _ib = GetComponent<InteractBehavior>();
         _equipWeapon = GetComponent<EquipWeapon>();
         _actions = new InputSystem_Actions();
         _actions.Player.SetCallbacks(this);
@@ -90,7 +92,7 @@ public class Player : MonoBehaviour, InputSystem_Actions.IPlayerActions
     {
         if (context.started)
         {
-            UseDoor.Invoke();
+            _ib.Interact();
         }
     }
     public void OnJump(InputAction.CallbackContext context)
@@ -126,6 +128,10 @@ public class Player : MonoBehaviour, InputSystem_Actions.IPlayerActions
             _equipWeapon.ToggleEquip();
         }
     }
+    public void OnRestart(InputAction.CallbackContext context)
+    {
+        GameManager.Instance.RestartGame();
+    }
 
     public void OnEnable()
     {
@@ -137,5 +143,5 @@ public class Player : MonoBehaviour, InputSystem_Actions.IPlayerActions
         _actions.Disable();
     }
 
-  
+    
 }
