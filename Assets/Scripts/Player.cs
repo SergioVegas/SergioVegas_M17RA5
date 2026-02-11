@@ -143,5 +143,34 @@ public class Player : MonoBehaviour, InputSystem_Actions.IPlayerActions
         _actions.Disable();
     }
 
-    
+    public PlayerData GetSaveData()
+    {
+        PlayerData data = new PlayerData();
+        data.position = new float[3] { transform.position.x, transform.position.y, transform.position.z };
+        data.hasWeapon = _equipWeapon != null && _equipWeapon.HasWeapon;
+        data.isWeaponEquipped = _equipWeapon != null && _equipWeapon.IsEquipped;
+        return data;
+    }
+
+    public void LoadFromData(PlayerData data)
+    {
+        CharacterController cc = GetComponent<CharacterController>();
+        if (cc != null) cc.enabled = false;
+        transform.position = new Vector3(data.position[0], data.position[1], data.position[2]);
+        if (cc != null) cc.enabled = true;
+
+        if (_equipWeapon != null && data.hasWeapon)
+        {
+            _equipWeapon.CreateWeapon();
+            
+            // Clean up weapon pickups in the scene
+            ObtainWeapon[] pickups = UnityEngine.Object.FindObjectsByType<ObtainWeapon>(FindObjectsSortMode.None);
+            foreach (var pickup in pickups)
+            {
+                Destroy(pickup.gameObject);
+            }
+
+            _equipWeapon.SetEquipped(data.isWeaponEquipped);
+        }
+    }
 }
